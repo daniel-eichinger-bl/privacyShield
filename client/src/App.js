@@ -1,13 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Button} from 'reactstrap'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import Overview from './components/Overview'
+import AppNavBar from './components/AppNavBar'
 
 function App() {
+  const [devices, setDevices] = useState([]);
+
+  const handleFetchDevices = () => {
+    
+    fetch('/api/devices')
+      .then(res => {return res.json()})
+      .then(data => {
+        console.log(data);
+        setDevices(data);
+      });
+  }
+
   return (
-    <div>
-      <h1>Hello!</h1>
-      <Button color="primary">Test123</Button>
-    </div>
+    <Router>
+      <AppNavBar getDevices={handleFetchDevices}></AppNavBar>
+      <Switch>
+        <Route path="/" exact component={Overview} />
+      </Switch>
+    </Router>
   );
 }
 
