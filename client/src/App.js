@@ -6,14 +6,16 @@ import AppNavBar from './components/AppNavBar'
 
 function App() {
   const [devices, setDevices] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFetchDevices = () => {
-    
+    setIsLoading(true);
     fetch('/api/devices')
       .then(res => {return res.json()})
       .then(data => {
         console.log(data);
         setDevices(data);
+        setIsLoading(false);
       });
   }
 
@@ -21,7 +23,7 @@ function App() {
     <Router>
       <AppNavBar getDevices={handleFetchDevices}></AppNavBar>
       <Switch>
-        <Route path="/" exact component={Overview} />
+        <Route path="/" exact render={props => <Overview {...props} devices={devices} isLoading={isLoading}/> } />
       </Switch>
     </Router>
   );
