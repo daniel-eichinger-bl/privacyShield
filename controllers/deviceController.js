@@ -5,19 +5,51 @@ const arpscan = require('arpscan/promise');
 
 exports.getDevices = async (req, res) => {
     const { stdout, stderr } = await exec('iw dev wlan0 station dump');
-    const connectedDevices = stdout;
-    
-    console.log(connectedDevices);
 
-    const ipsMacsMapping = await runArpScan();
-    
-    if(ipsMacsMapping.length > 0 && connectedDevices) {
-        res.status(200).json({connectedDevices,ipsMacsMapping});
+    if (stdout) {
+        const macs = parseStationOutput(stdout);
+        const ipsMacsMapping = await runArpScan();
+
+        if (ipsMacsMapping.length > 0 && macs.size > 0) {
+            const devices = findIpForMacs(macs, ipsMacsMapping);
+
+            res.status(200).json({ devices });
+        } else {
+            res.status(500).json({ status: "Internal Error, Arp Scan failed" });
+        }
     } else {
-        res.status(500).json({status: "Internal Error, Arp Scan failed"});
+        res.status(500).json({ status: "Internal Error, no connected devices!" });
     }
-
 }
+
+
+function findIpForMacs(macs, ipsMacsMappings) {
+    let connectedDevices = [];
+    for(const ipMacMapping of ipsMacsMappings) {
+        if(macs.has(ipMacMapping.mac.toLowerCase())) {
+            console.log(ipMacMapping);
+            connectedDevices.push(ipMacMapping);
+        }
+    } 
+    return connectedDevices;
+}
+
+/*
+    gets connected macs from access point  
+*/
+function parseStationOutput(output) {
+    let macs = new Set();
+    const lines = output.split('\n');
+    for (const line of lines) {
+        if (line.includes("Station")) {
+            var mac = line.replace('Station ', '')
+            mac = mac.replace(' (on wlan0)', '')
+            macs.add(mac)
+        }
+    }
+    return macs;
+}
+
 
 /* 
     returns if successfull Array of: 
