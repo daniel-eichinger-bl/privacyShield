@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const devicesApi = require('./routes/devicesApi');
 
-
 app.use(bodyParser.json());
+
+
+// Set-Up Routes
 app.use('/api/devices', devicesApi);
 
 app.get('/', (req, res) => {
