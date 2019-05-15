@@ -17,6 +17,17 @@ const addDevice = (device) => {
 exports.getDevices = async (scanedDevices) => {
     let dbDevices = await getDevicesFromDB();
 
+    // update timestamps of dbDevices, TODO update this in database also
+    dbDevices = dbDevices.map(d => {
+        const result = scanedDevices.find(sD => sD.mac === d.mac);
+        if(result) {
+            d.timestamp = new Date().getTime();
+        } 
+        return d;
+    });
+
+
+
     // get new Devices
     const newDevices = scanedDevices.filter(d => {
         const result = dbDevices.find(dbD => dbD.mac === d.mac);

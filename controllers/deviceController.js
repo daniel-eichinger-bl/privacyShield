@@ -17,7 +17,7 @@ exports.getDevices = async (req, res) => {
             let devices = findIpForMacs(macs, ipsMacsMapping);
 
             try {
-                devices = DevicesModel.getDevices(devices);
+                devices = await DevicesModel.getDevices(devices);
                 res.status(200).json({ devices });
             } catch(err) {
                 res.status(500).json({ status: "Internal Error, Database Query getDevices failed" });
