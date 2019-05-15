@@ -1,7 +1,7 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const arpscan = require('arpscan/promise');
-
+const DevicesModel = require('../models/DevicesModel')
 
 /* 
  returns { "devices": [ { "ip": "10.70.107.38", "mac": "6C:40:08:9E:EB:8E", "vendor": "(Unknown)", "timestamp": 1557812866910 }, { "ip": "10.70.107.234", "mac": "04:D6:AA:C2:4B:FF", "vendor": "(Unknown)", "timestamp": 1557812866910 } ] }
@@ -14,9 +14,14 @@ exports.getDevices = async (req, res) => {
         const ipsMacsMapping = await runArpScan();
 
         if (ipsMacsMapping.length > 0 && macs.size > 0) {
-            const devices = findIpForMacs(macs, ipsMacsMapping);
+            let devices = findIpForMacs(macs, ipsMacsMapping);
 
-            res.status(200).json({ devices });
+            try {
+                devices = DevicesModel.getDevices(devices);
+                res.status(200).json({ devices });
+            } catch(err) {
+                res.status(500).json({ status: "Internal Error, Database Query getDevices failed" });
+            }
         } else {
             res.status(500).json({ status: "Internal Error, Arp Scan failed" });
         }
@@ -30,7 +35,7 @@ function findIpForMacs(macs, ipsMacsMappings) {
     let connectedDevices = [];
     for(const ipMacMapping of ipsMacsMappings) {
         if(macs.has(ipMacMapping.mac.toLowerCase())) {
-            console.log(ipMacMapping);
+            //console.log(ipMacMapping);
             connectedDevices.push(ipMacMapping);
         }
     } 

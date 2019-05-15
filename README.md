@@ -21,3 +21,4 @@
 
 # Remove Mongodb
 https://askubuntu.com/questions/147135/how-can-i-uninstall-mongodb-and-reinstall-the-latest-version
+Install sqlite3: https://github.com/converge/instapy-dashboard/issues/19
