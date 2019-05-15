@@ -17,3 +17,7 @@
 
 ## Remote Development
 - https://code.visualstudio.com/docs/remote/ssh
+
+
+# Remove Mongodb
+https://askubuntu.com/questions/147135/how-can-i-uninstall-mongodb-and-reinstall-the-latest-version
