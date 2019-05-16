@@ -35,7 +35,6 @@ function findIpForMacs(macs, ipsMacsMappings) {
     let connectedDevices = [];
     for(const ipMacMapping of ipsMacsMappings) {
         if(macs.has(ipMacMapping.mac.toLowerCase())) {
-            //console.log(ipMacMapping);
             connectedDevices.push(ipMacMapping);
         }
     } 
