@@ -21,6 +21,14 @@ const Overview = (props) => {
         return beforeTenMinutes < onlineTime;
     }
 
+    const constructParams = (device) => {
+        const { ip, timestamp, blocked, mac } = device;
+        return {
+            pathname: `/device_details/${mac}/${ip}/${timestamp}/${blocked}`,
+        };
+    }
+
+
     return (
         <Container>
             {props.isLoading ?
@@ -54,7 +62,7 @@ const Overview = (props) => {
                                 MAC-Adress: {device.mac}<br />
                                 Last online: {new Date(device.timestamp).toLocaleTimeString()}-{new Date(device.timestamp).toLocaleDateString()}
 
-                                <Link to={`/device_details/${device.mac}`}>
+                                <Link to={constructParams(device)}>
                                     <Button color="primary" className="detailBtn">Details</Button>
                                 </Link>
 
