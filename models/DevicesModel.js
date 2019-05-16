@@ -3,8 +3,6 @@ const sqlite3 = require('sqlite3').verbose();
 /* Database Connection */
 const db = new sqlite3.cached.Database('./data/database');
 
-
-// mac TEXT PRIMARY KEY, timestamp TEXT, ip TEXT, blocked INTEGER DEFAULT 0
 const addDevice = (device) => {
     const stmt = "INSERT INTO privacy_shield(mac, timestamp, ip, blocked) VALUES (?,?,?,?)";
     db.get(stmt, [device.mac, device.timestamp, device.ip, 0], (err, row) => {
@@ -14,38 +12,52 @@ const addDevice = (device) => {
     });
 }
 
-exports.getDevices = async (scanedDevices) => {
+const updateDevice = (device) => {
+    const stmt = "UPDATE privacy_shield SET timestamp=? WHERE mac=?";
+
+    db.run(stmt, [device.timestamp, device.mac], (err) => {
+        console.log(this.lastID);
+        console.log(this.changes);
+        if (err) {
+            console.log(err);
+        }
+    });
+
+}
+
+exports.mergeDevices = async (scanedDevices) => {
     let dbDevices = await getDevicesFromDB();
 
-    // update timestamps of dbDevices, TODO update this in database also
+    // 1. update timestamps of dbDevices that are connected
     dbDevices = dbDevices.map(d => {
         const result = scanedDevices.find(sD => sD.mac === d.mac);
-        if(result) {
+        if (result) {
             d.timestamp = new Date().getTime();
-        } 
+            updateDevice(d);
+        }
         return d;
     });
 
 
-
-    // get new Devices
+    // 2. see what connected devices are new
     const newDevices = scanedDevices.filter(d => {
         const result = dbDevices.find(dbD => dbD.mac === d.mac);
         return result === undefined;
     });
 
-    // add new Devices to Database
-    for(const d of newDevices) {
+    // 3. add new devices to Database
+    for (const d of newDevices) {
         addDevice(d);
-        
-        // construct dbDeviceObject
-        const {mac, ip, timestamp} = d;
-        device = {mac, ip, timestamp, blocked: 0};
+
+        // construct dbDeviceObject and push to database
+        const { mac, ip, timestamp } = d;
+        device = { mac, ip, timestamp, blocked: 0 };
         dbDevices.push(device);
     }
 
+    // 4. return new Devices and database Devices
     console.log("\nDatabase+New Devices:")
-    console.log({dbDevices})
+    console.log({ dbDevices })
     return dbDevices;
 }
 
@@ -65,24 +77,3 @@ function getDevicesFromDB() {
 
     });
 }
-
- /*
-    db.get("SELECT * FROM privacy_shield", (err, row) => {
-        const devices = []
-        if(err === null) {
-            if(!row) {
-                for(const device of scanedDevices) {
-                    addDevice(device);
-                }
-            } else {
-                console.log({row});
-            }
-        } else {
-            return []
-        }
-    })*/
-
-    /*db.get("SELECT * FROM privacy_shield WHERE mac=$mac",{$mac: device.mac}, (err, row) => {
-           console.error(err);
-           console.log(row);
-       });*/
