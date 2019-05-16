@@ -20,7 +20,7 @@ const db = new sqlite3.cached.Database('./data/database', err => {
 db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='privacy_shield'", (err, row) => {
     if(!row) {
         console.log("--> PrivacyShield Database created!")
-        db.run("CREATE TABLE privacy_shield (mac TEXT PRIMARY KEY, timestamp INTEGER, ip TEXT, blocked INTEGER DEFAULT 0)", err => {
+        db.run("CREATE TABLE privacy_shield (mac TEXT PRIMARY KEY, timestamp INTEGER, ip TEXT, blocked INTEGER DEFAULT 0, name TEXT)", err => {
             if(err) {
                 console.error(err);
             }

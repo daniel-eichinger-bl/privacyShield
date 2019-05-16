@@ -20,6 +20,12 @@ exports.toggleBlock = async (req, res) => {
 }
 
 
+exports.updateName = (req, res) => {
+    const {mac, name} = req.body;
+    DevicesModel.updateName(mac, name);
+}
+
+
 /* 
  returns { "devices": [ { "ip": "10.70.107.38", "mac": "6C:40:08:9E:EB:8E", "vendor": "(Unknown)", "timestamp": 1557812866910 }, { "ip": "10.70.107.234", "mac": "04:D6:AA:C2:4B:FF", "vendor": "(Unknown)", "timestamp": 1557812866910 } ] }
 */

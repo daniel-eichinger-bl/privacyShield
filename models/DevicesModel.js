@@ -24,6 +24,15 @@ exports.updateBlockedDevice = (mac, blocked) => {
     });
 }
 
+exports.updateName = (mac, name) => {
+    const stmt = "UPDATE privacy_shield SET name=? WHERE mac=?";
+    db.run(stmt, [name, mac], (err) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
+
 const updateTimestampDevice = (device) => {
     const stmt = "UPDATE privacy_shield SET timestamp=? WHERE mac=?";
 
@@ -61,7 +70,7 @@ exports.mergeDevices = async (scanedDevices) => {
 
         // construct dbDeviceObject and push to database
         const { mac, ip, timestamp } = d;
-        device = { mac, ip, timestamp, blocked: 0 };
+        device = { mac, ip, timestamp, blocked: 0, name: null };
         dbDevices.push(device);
     }
 

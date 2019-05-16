@@ -5,5 +5,6 @@ const controller = require('../controllers/deviceController')
 
 router.get('/', controller.getDevices);
 router.post('/block', controller.toggleBlock);
+router.post('/updateName', controller.updateName);
 
 module.exports = router;
