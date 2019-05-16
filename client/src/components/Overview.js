@@ -22,9 +22,9 @@ const Overview = (props) => {
     }
 
     const constructParams = (device) => {
-        const { ip, timestamp, blocked, mac } = device;
+        const { ip, timestamp, blocked, mac, name } = device;
         return {
-            pathname: `/device_details/${mac}/${ip}/${timestamp}/${blocked}`,
+            pathname: `/device_details/${mac}/${ip}/${timestamp}/${blocked}/${name}`,
         };
     }
 
@@ -45,13 +45,13 @@ const Overview = (props) => {
                                 }
 
                                 {checkIsActive(device.timestamp) ?
-                                    <Badge color="success" className="badgeOverview">active</Badge>
+                                    <Badge color="success" className="badgeOverview">online</Badge>
                                     :
                                     ""
                                 }
 
                                 {device.blocked === 0 ?
-                                    <Badge color="danger" className="badgeOverview">blocked</Badge>
+                                    <Badge color="danger" className="badgeOverview">Traffic blocked</Badge>
                                     :
                                     ""
                                 }

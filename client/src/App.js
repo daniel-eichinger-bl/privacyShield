@@ -41,7 +41,7 @@ function App() {
       <AppNavBar getDevices={handleFetchDevices} showBtn={fetchBtn}></AppNavBar>
       <Switch>
         <Route path="/" exact render={props => <Overview {...props} data={devices} isLoading={isLoading} showFetchBtn={toggleButton}/>}/>
-        <Route path="/device_details/:mac/:ip/:timestamp/:blocked" component={Details}/>
+        <Route path="/device_details/:mac/:ip/:timestamp/:blocked/:name" component={Details}/>
       </Switch>
     </Router>
   );

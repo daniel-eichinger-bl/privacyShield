@@ -67,3 +67,7 @@ code {
 #controlsContainer {
   margin-top: 30px;
 }
+
+#blockTrafficBtn {
+  float: left;
+}
