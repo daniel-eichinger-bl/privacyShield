@@ -16,8 +16,6 @@ const updateDevice = (device) => {
     const stmt = "UPDATE privacy_shield SET timestamp=? WHERE mac=?";
 
     db.run(stmt, [device.timestamp, device.mac], (err) => {
-        console.log(this.lastID);
-        console.log(this.changes);
         if (err) {
             console.log(err);
         }

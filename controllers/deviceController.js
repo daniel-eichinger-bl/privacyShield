@@ -3,6 +3,14 @@ const exec = util.promisify(require('child_process').exec);
 const arpscan = require('arpscan/promise');
 const DevicesModel = require('../models/DevicesModel')
 
+
+
+exports.toggleBlock = (req, res) => {
+    console.log(req.body);
+    res.status(200).json({});
+}
+
+
 /* 
  returns { "devices": [ { "ip": "10.70.107.38", "mac": "6C:40:08:9E:EB:8E", "vendor": "(Unknown)", "timestamp": 1557812866910 }, { "ip": "10.70.107.234", "mac": "04:D6:AA:C2:4B:FF", "vendor": "(Unknown)", "timestamp": 1557812866910 } ] }
 */

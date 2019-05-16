@@ -35,7 +35,7 @@ const Overview = (props) => {
                 <Spinner className="spinner" color="danger"></Spinner>
                 :
                 <ListGroup>
-                    {props.data.devices.map(device =>
+                    {props.data.map(device =>
                         <ListGroupItem key={device.mac} className="overviewItem">
                             <h5 className={checkIsActive(device.timestamp) ? "activeHeading" : ""}>
                                 {device.name ?
