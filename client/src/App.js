@@ -18,7 +18,6 @@ function App() {
       .then(res => { if(res.status === 200) {return res.json() }})
       .then(data => {
         data.devices.sort((a, b) => b.timestamp - a.timestamp);
-        console.log(data);
         setDevices(data.devices);
         setIsLoading(false);
       })

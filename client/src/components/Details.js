@@ -25,7 +25,6 @@ const Details = (props) => {
             .then(res => { if (res.status === 200) { return res.json() } })
             .then(data => {
                 if (data) {
-                    console.log(data);
                     setIsLoading(false);
                 }
             });

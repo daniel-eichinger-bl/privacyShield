@@ -14,7 +14,7 @@ const Overview = (props) => {
 
     const checkIsActive = (timestamp) => {
         var beforeTenMinutes = new Date();
-        const durationMin = 100;
+        const durationMin = 1;
         beforeTenMinutes.setMinutes(beforeTenMinutes.getMinutes() - durationMin);
 
         const onlineTime = new Date(timestamp);
@@ -28,7 +28,7 @@ const Overview = (props) => {
         };
     }
 
-
+    // className={checkIsActive(device.timestamp) ? "activeItem" : "inactiveItem"}
     return (
         <Container>
             {props.isLoading ?
@@ -50,7 +50,7 @@ const Overview = (props) => {
                                     ""
                                 }
 
-                                {device.blocked === 0 ?
+                                {device.blocked === 1 ?
                                     <Badge color="danger" className="badgeOverview">Traffic blocked</Badge>
                                     :
                                     ""
