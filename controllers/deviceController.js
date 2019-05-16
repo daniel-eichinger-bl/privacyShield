@@ -3,10 +3,13 @@ const exec = util.promisify(require('child_process').exec);
 const arpscan = require('arpscan/promise');
 const DevicesModel = require('../models/DevicesModel')
 
+const iptables = require('iptables2');
 
 
 exports.toggleBlock = (req, res) => {
-    console.log(req.body);
+    const {mac, blocked, ip} = req.body;
+
+
     res.status(200).json({});
 }
 
