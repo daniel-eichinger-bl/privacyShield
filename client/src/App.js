@@ -15,12 +15,15 @@ function App() {
   const handleFetchDevices = () => {
     setIsLoading(true);
     fetch('/api/devices')
-      .then(res => { return res.json() })
+      .then(res => { if(res.status === 200) {return res.json() }})
       .then(data => {
         data.devices.sort((a, b) => b.timestamp - a.timestamp);
         console.log(data);
         setDevices(data);
         setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 

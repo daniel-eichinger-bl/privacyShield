@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import { Button, Container, Spinner, ListGroup, ListGroupItem, Badge } from 'reactstrap'
 
 const Overview = (props) => {
-
+    const showFetchBtn = props.showFetchBtn;
+    
     useEffect(() => {
-        props.showFetchBtn(true);
-
+        showFetchBtn(true);
         return () => {
-            props.showFetchBtn(false);
+            showFetchBtn(false);
         }
-    }, [])
+    })
 
     const checkIsActive = (timestamp) => {
         var beforeTenMinutes = new Date();

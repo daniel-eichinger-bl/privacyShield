@@ -46,3 +46,24 @@ code {
   color: #248a3b!important;
 }
 
+/* Details */
+.card {
+  margin-top:30px;
+  margin-bottom: 30px; 
+  color: white!important;
+  background-color: #343a40!important;
+}
+
+.card-header {
+  background-color: #518FF5!important;
+  font-weight: bold!important;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+  background-color: red!important;
+  border-color:red!important;
+}
+
+#controlsContainer {
+  margin-top: 30px;
+}
