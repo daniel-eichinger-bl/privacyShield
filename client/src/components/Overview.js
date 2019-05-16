@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Container, Spinner, ListGroup, ListGroupItem, Badge } from 'reactstrap'
 
@@ -6,7 +6,7 @@ const Overview = (props) => {
 
     useEffect(() => {
         props.showFetchBtn(true);
-        
+
         return () => {
             props.showFetchBtn(false);
         }
@@ -20,7 +20,6 @@ const Overview = (props) => {
         const onlineTime = new Date(timestamp);
         return beforeTenMinutes < onlineTime;
     }
-
 
     return (
         <Container>
@@ -55,10 +54,7 @@ const Overview = (props) => {
                                 MAC-Adress: {device.mac}<br />
                                 Last online: {new Date(device.timestamp).toLocaleTimeString()}-{new Date(device.timestamp).toLocaleDateString()}
 
-                                <Link to={{
-                                        pathname: "/device_details",
-                                        detailProps: device
-                                        }} >
+                                <Link to={`/device_details/${device.mac}`}>
                                     <Button color="primary" className="detailBtn">Details</Button>
                                 </Link>
 

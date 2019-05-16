@@ -35,7 +35,7 @@ function App() {
       <AppNavBar getDevices={handleFetchDevices} showBtn={fetchBtn}></AppNavBar>
       <Switch>
         <Route path="/" exact render={props => <Overview {...props} data={devices} isLoading={isLoading} showFetchBtn={toggleButton}/>}/>
-        <Route path="/device_details" component={Details}/>
+        <Route path="/device_details/:mac" component={Details}/>
       </Switch>
     </Router>
   );
