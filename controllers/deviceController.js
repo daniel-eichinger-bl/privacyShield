@@ -3,14 +3,20 @@ const exec = util.promisify(require('child_process').exec);
 const arpscan = require('arpscan/promise');
 const DevicesModel = require('../models/DevicesModel')
 
-const iptables = require('iptables2');
+exports.toggleBlock = async (req, res) => {
+    const {mac, blocked} = req.body;
 
-
-exports.toggleBlock = (req, res) => {
-    const {mac, blocked, ip} = req.body;
-
-
-    res.status(200).json({});
+    if(blocked) {
+        const { stdout, stderr } = await exec(`sudo iptables -A FORWARD -m mac --mac-source ${mac} -j DROP`);
+        console.log({stdout, stderr});
+        DevicesModel.updateBlockedDevice(mac, blocked);
+        res.status(200).json({status: "Device has been blocked!"});
+    } else {
+        const { stdout, stderr } = await exec(`sudo iptables -D FORWARD -m mac --mac-source ${mac} -j DROP`);
+        console.log({stdout, stderr});
+        DevicesModel.updateBlockedDevice(mac, blocked);
+        res.status(200).json({status: "Device has been unblocked!"});
+    }
 }
 
 

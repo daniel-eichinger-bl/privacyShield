@@ -18,7 +18,7 @@ const Details = (props) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({mac, blocked})
+            body: JSON.stringify({mac, blocked, ip})
         })
             .then(res => { if (res.status === 200) { return res.json() } })
             .then(data => {

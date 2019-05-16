@@ -12,7 +12,19 @@ const addDevice = (device) => {
     });
 }
 
-const updateDevice = (device) => {
+exports.updateBlockedDevice = (mac, blocked) => {
+    blockedInt = blocked === true ? 1 : 0;
+
+    const stmt = "UPDATE privacy_shield SET blocked=? WHERE mac=?";
+
+    db.run(stmt, [blocked, mac], (err) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
+
+const updateTimestampDevice = (device) => {
     const stmt = "UPDATE privacy_shield SET timestamp=? WHERE mac=?";
 
     db.run(stmt, [device.timestamp, device.mac], (err) => {
@@ -31,7 +43,7 @@ exports.mergeDevices = async (scanedDevices) => {
         const result = scanedDevices.find(sD => sD.mac === d.mac);
         if (result) {
             d.timestamp = new Date().getTime();
-            updateDevice(d);
+            updateTimestampDevice(d);
         }
         return d;
     });
