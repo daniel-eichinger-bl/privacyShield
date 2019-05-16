@@ -1,16 +1,72 @@
-import React from 'react'
-import { Button, Container, Spinner } from 'reactstrap'
+import React, {useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import { Button, Container, Spinner, ListGroup, ListGroupItem, Badge } from 'reactstrap'
 
 const Overview = (props) => {
+
+    useEffect(() => {
+        props.showFetchBtn(true);
+        
+        return () => {
+            props.showFetchBtn(false);
+        }
+    }, [])
+
+    const checkIsActive = (timestamp) => {
+        var beforeTenMinutes = new Date();
+        const durationMin = 100;
+        beforeTenMinutes.setMinutes(beforeTenMinutes.getMinutes() - durationMin);
+
+        const onlineTime = new Date(timestamp);
+        return beforeTenMinutes < onlineTime;
+    }
+
+
     return (
         <Container>
             {props.isLoading ?
                 <Spinner className="spinner" color="danger"></Spinner>
                 :
-                <div>
-                    <h1>Hello!</h1>
-                    <Button color="primary">Test123</Button>
-                </div>
+                <ListGroup>
+                    {props.data.devices.map(device =>
+                        <ListGroupItem key={device.mac} className="overviewItem">
+                            <h5 className={checkIsActive(device.timestamp) ? "activeHeading" : ""}>
+                                {device.name ?
+                                    device.name
+                                    :
+                                    `Unnamed Device (${device.mac})`
+                                }
+
+                                {checkIsActive(device.timestamp) ?
+                                    <Badge color="success" className="badgeOverview">active</Badge>
+                                    :
+                                    ""
+                                }
+
+                                {device.blocked === 0 ?
+                                    <Badge color="danger" className="badgeOverview">blocked</Badge>
+                                    :
+                                    ""
+                                }
+
+                            </h5>
+                            <div className="listContent">
+                                Current IP-Adress: {device.ip}<br />
+                                MAC-Adress: {device.mac}<br />
+                                Last online: {new Date(device.timestamp).toLocaleTimeString()}-{new Date(device.timestamp).toLocaleDateString()}
+
+                                <Link to={{
+                                        pathname: "/device_details",
+                                        detailProps: device
+                                        }} >
+                                    <Button color="primary" className="detailBtn">Details</Button>
+                                </Link>
+
+                            </div>
+                        </ListGroupItem>
+                    )}
+
+                </ListGroup>
             }
 
 

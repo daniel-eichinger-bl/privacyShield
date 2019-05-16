@@ -20,3 +20,29 @@ code {
   margin-right: auto;
   margin-top: 30px;
 }
+
+.navLabel {margin-top:8px;}
+
+/* Overview Style */
+.badgeOverview {
+  margin-left: 20px;
+}
+
+.listContent {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.overviewItem {
+  margin-top: 15px!important;
+  margin-bottom: 15px!important;
+}
+
+.detailBtn {
+  float: right;
+}
+
+.activeHeading {
+  color: #248a3b!important;
+}
+
