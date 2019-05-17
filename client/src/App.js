@@ -18,7 +18,6 @@ function App() {
       .then(res => { if(res.status === 200) {return res.json() }})
       .then(data => {
         data.devices.sort((a, b) => b.timestamp - a.timestamp);
-        console.log(data);
         setDevices(data.devices);
         setIsLoading(false);
       })
@@ -41,7 +40,7 @@ function App() {
       <AppNavBar getDevices={handleFetchDevices} showBtn={fetchBtn}></AppNavBar>
       <Switch>
         <Route path="/" exact render={props => <Overview {...props} data={devices} isLoading={isLoading} showFetchBtn={toggleButton}/>}/>
-        <Route path="/device_details/:mac/:ip/:timestamp/:blocked" component={Details}/>
+        <Route path="/device_details/:mac/:ip/:timestamp/:blocked/:name" component={Details}/>
       </Switch>
     </Router>
   );

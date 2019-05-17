@@ -14,7 +14,7 @@ const Overview = (props) => {
 
     const checkIsActive = (timestamp) => {
         var beforeTenMinutes = new Date();
-        const durationMin = 100;
+        const durationMin = 1;
         beforeTenMinutes.setMinutes(beforeTenMinutes.getMinutes() - durationMin);
 
         const onlineTime = new Date(timestamp);
@@ -22,13 +22,13 @@ const Overview = (props) => {
     }
 
     const constructParams = (device) => {
-        const { ip, timestamp, blocked, mac } = device;
+        const { ip, timestamp, blocked, mac, name } = device;
         return {
-            pathname: `/device_details/${mac}/${ip}/${timestamp}/${blocked}`,
+            pathname: `/device_details/${mac}/${ip}/${timestamp}/${blocked}/${name}`,
         };
     }
 
-
+    // className={checkIsActive(device.timestamp) ? "activeItem" : "inactiveItem"}
     return (
         <Container>
             {props.isLoading ?
@@ -45,13 +45,13 @@ const Overview = (props) => {
                                 }
 
                                 {checkIsActive(device.timestamp) ?
-                                    <Badge color="success" className="badgeOverview">active</Badge>
+                                    <Badge color="success" className="badgeOverview">online</Badge>
                                     :
                                     ""
                                 }
 
-                                {device.blocked === 0 ?
-                                    <Badge color="danger" className="badgeOverview">blocked</Badge>
+                                {device.blocked === 1 ?
+                                    <Badge color="danger" className="badgeOverview">Traffic blocked</Badge>
                                     :
                                     ""
                                 }
