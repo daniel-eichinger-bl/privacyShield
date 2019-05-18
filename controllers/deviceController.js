@@ -1,8 +1,21 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const arpscan = require('arpscan/promise');
-const DevicesModel = require('../models/DevicesModel')
+const DevicesModel = require('../models/DevicesModel');
+const TrafficModel = require('../models/TrafficModel');
 
+
+exports.getDeviceDetails = async (req, res) => {
+    const mac = req.query.mac;
+    const traffic = await TrafficModel.getTrafficByMac(mac.toUpperCase());
+    res.status(200).json(traffic);
+}
+
+
+
+/*
+    Toogles Blocking by MAC-Adress using iptables
+*/
 exports.toggleBlock = async (req, res) => {
     const {mac, blocked} = req.body;
 
