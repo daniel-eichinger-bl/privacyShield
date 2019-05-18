@@ -4,12 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "server-prod": "node server.js production",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "analyzer": "npm start --prefix traffic_analyzer",
-    "all": "concurrently \"npm run server\" \"npm run client\" \"npm run analyzer\""
+    "all-dev": "concurrently \"npm run server\" \"npm run client\" \"npm run analyzer\"",
+    "all-prod": "concurrently \"npm run server-prod\" \"npm run analyzer\""
   },
   "repository": {
     "type": "git",
