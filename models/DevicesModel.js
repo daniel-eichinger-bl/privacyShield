@@ -33,10 +33,10 @@ exports.updateName = (mac, name) => {
     });
 }
 
-const updateTimestampDevice = (device) => {
-    const stmt = "UPDATE privacy_shield SET timestamp=? WHERE mac=?";
+const updateTimestampIpDevice = (device) => {
+    const stmt = "UPDATE privacy_shield SET timestamp=?, ip=? WHERE mac=?";
 
-    db.run(stmt, [device.timestamp, device.mac], (err) => {
+    db.run(stmt, [device.timestamp,device.ip, device.mac], (err) => {
         if (err) {
             console.log(err);
         }
@@ -52,7 +52,8 @@ exports.mergeDevices = async (scanedDevices) => {
         const result = scanedDevices.find(sD => sD.mac === d.mac);
         if (result) {
             d.timestamp = new Date().getTime();
-            updateTimestampDevice(d);
+            d.ip = sD.ip;
+            updateTimestampIpDevice(d);
         }
         return d;
     });
