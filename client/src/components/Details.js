@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardHeader, CardBody, Container, Row, Col } from 'reactstrap';
 import TrafficBlockBtn from './TrafficBlockBtn'
 import RenameDeviceInput from './RenameDeviceInput'
+import TrafficSummary from './TrafficSummary';
 
 const Details = (props) => {
     var { mac, ip, timestamp, blocked, name } = props.match.params;
@@ -29,17 +30,17 @@ const Details = (props) => {
                             </div>
                         </Col>
                         <Col>
-                           <RenameDeviceInput name={deviceName} mac={mac} setName={handleNameChange}/>
+                            <RenameDeviceInput name={deviceName} mac={mac} setName={handleNameChange} />
                         </Col>
                     </Row>
                     <div id="controlsContainer">
 
                         <Row>
                             <Col>
-                                <TrafficBlockBtn mac={mac} ip={ip} blocked={blocked}/>
+                                <TrafficBlockBtn mac={mac} ip={ip} blocked={blocked} />
                             </Col>
                             <Col>
-                                
+                                <TrafficSummary mac={mac} />
                             </Col>
                         </Row>
                     </div>

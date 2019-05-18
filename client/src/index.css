@@ -71,3 +71,14 @@ code {
 #blockTrafficBtn {
   float: left;
 }
+
+
+/* Traffic Summary */
+li.hostTypeItem.list-group-item {
+  color: black;
+}
+
+
+#hostTypeList {
+margin-top: 30px;  
+}
