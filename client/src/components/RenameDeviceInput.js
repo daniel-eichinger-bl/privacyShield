@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, InputGroup, InputGroupAddon, Input, Form } from 'reactstrap';
 
 const RenameDeviceInput = (props) => {
