@@ -34,9 +34,8 @@ exports.updateName = (mac, name) => {
 }
 
 const updateTimestampIpDevice = (device) => {
-    const stmt = "UPDATE privacy_shield SET timestamp=?, ip=? WHERE mac=?";
-
-    db.run(stmt, [device.timestamp,device.ip, device.mac], (err) => {
+    const stmt = "UPDATE privacy_shield SET timestamp=?,ip=? WHERE mac=?";
+    db.run(stmt, [device.timestamp, device.ip, device.mac], (err) => {
         if (err) {
             console.log(err);
         }
@@ -52,7 +51,7 @@ exports.mergeDevices = async (scanedDevices) => {
         const result = scanedDevices.find(sD => sD.mac === d.mac);
         if (result) {
             d.timestamp = new Date().getTime();
-            d.ip = sD.ip;
+            d.ip = result.ip;
             updateTimestampIpDevice(d);
         }
         return d;

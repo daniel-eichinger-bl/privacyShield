@@ -44,18 +44,19 @@ exports.updateName = (req, res) => {
 */
 exports.getDevices = async (req, res) => {
     const { stdout, stderr } = await exec('iw dev wlan0 station dump');
-
+    
     if (stdout) {
         const macs = parseStationOutput(stdout);
         const ipsMacsMapping = await runArpScan();
-
+        
         if (ipsMacsMapping.length > 0 && macs.size > 0) {
             let devices = findIpForMacs(macs, ipsMacsMapping);
-
+            
             try {
                 devices = await DevicesModel.mergeDevices(devices);
                 res.status(200).json({ devices });
             } catch(err) {
+                console.error(err);
                 res.status(500).json({ status: "Internal Error, Database Query getDevices failed" });
             }
         } else {
