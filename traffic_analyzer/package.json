@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "analyzer": "nodemon index.js"
+    "analyzer": "nodemon index.js",
+    "parser": "nodemon httpPayloadParser.js"
   },
   "author": "Daniel Eichinger",
   "license": "ISC",
   "dependencies": {
+    "http-message-parser": "0.0.34",
     "is-tls-client-hello": "^1.0.0",
     "pcap": "^2.1.0",
     "sni": "^1.0.0",

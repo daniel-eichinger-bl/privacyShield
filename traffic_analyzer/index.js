@@ -1,19 +1,7 @@
 const pcap = require('pcap');
 const tlsClientHello = require('is-tls-client-hello');
 const sni = require('sni');
-
-
-
-
-
-
-
-
-
-
-
-
-
+const parser = require('./httpPayloadParser');
 
 const pcap_session = pcap.createSession('br0', "ip proto \\tcp");
 
@@ -54,7 +42,7 @@ pcap_session.on('packet', function (raw_packet) {
     if (tcp.sport === 8443 || tcp.sport === 443 || tcp.dport === 443 || tcp.dport === 8443) { 
         if (tlsClientHello(tcp.data)) {
             const url = sni(tcp.data);
-            const obj = {ts: ts, shost: shost , dhost: dhost, saddr: src, daddr: dst, sport: tcp.sport, dport: tcp.dport, type: 'https', payload: url}
+            const obj = {ts: ts, shost: shost , dhost: dhost, saddr: src, daddr: dst, sport: tcp.sport, dport: tcp.dport, type: 'https', host: url}
             console.log({obj});
             return;
         }
@@ -66,12 +54,24 @@ pcap_session.on('packet', function (raw_packet) {
     if (r.indexOf('Content-Length') === -1 &&
         r.indexOf('Host') === -1 &&
         r.indexOf('Content-Type') === -1) {
-        return false
+        return;
     }
 
-    const obj = { ts: ts, shost: shost, dhost: dhost, saddr: src, daddr: dst, sport: tcp.sport, dport: tcp.dport, type: 'http', payload: r };
+    const host = parser.parseHTTPPayload(r);
+
+    if(host === "") {
+        return;
+    }
+
+    const obj = { ts: ts, shost: shost, dhost: dhost, saddr: src, daddr: dst, sport: tcp.sport, dport: tcp.dport, type: 'http', host };
     console.log({obj});
     } catch (err) {
         console.error(err);
     }
 });
+
+
+/* 
+Possible to use TCP tracker and then see whats requested in a session
+
+*/
