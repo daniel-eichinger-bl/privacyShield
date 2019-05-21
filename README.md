@@ -33,3 +33,32 @@ Install sqlite3: https://github.com/converge/instapy-dashboard/issues/19
 
 Delete Rule:
 iptables -D 
+
+
+
+Show list of connected devices
+iw dev wlan0 station dump
+
+Arp-Scan
+sudo arp-scan -I br0 --localnet
+
+e;g finds my mac 6c:40:08:9e:eb:8e and my ip
+
+Restart DHCPCD client
+sudo systemctl restart dhcpcd
+
+Start-Up Pi
+Best to start it up and then connect ethernet
+
+
+Iptable-Example
+sudo iptables -D FORWARD -m mac --mac-source 04:d6:aa:c2:4b:ff -j DROP
+sudo iptables -D FORWARD -m mac --mac-source 04:d6:aa:c2:4b:ff -j DROP
+
+Add sudo modprobe br_netfilter to enable iptables on bridge interface
+
+
+Pcap Operation not permitted Issue
+sudo setcap 'cap_net_raw,cap_net_admin+eip' $(readlink -f $(which node))
+
+
