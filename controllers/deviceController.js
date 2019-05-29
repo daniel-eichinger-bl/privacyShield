@@ -17,11 +17,13 @@ exports.toggleBlock = async (req, res) => {
     const {mac, blocked} = req.body;
 
     if(blocked) {
+        console.log("Added Rule!! " + mac);
         const { stdout, stderr } = await exec(`sudo iptables -A FORWARD -m mac --mac-source ${mac} -j DROP`);
         console.log({stdout, stderr});
         DevicesModel.updateBlockedDevice(mac, blocked);
         res.status(200).json({status: "Device has been blocked!"});
     } else {
+        console.log("Deleted Rule!! " + mac);
         const { stdout, stderr } = await exec(`sudo iptables -D FORWARD -m mac --mac-source ${mac} -j DROP`);
         console.log({stdout, stderr});
         DevicesModel.updateBlockedDevice(mac, blocked);
