@@ -31,11 +31,13 @@ app.listen(port, () => console.log(`Server running on port ${port}`));
 /* Closing Server Cleanup */
 function cleanup() {
     console.log("--> Server closing");
-    db.close(err => {
-        if(err) {
-            console.error(err);
-        }
-    });
+    if (db) {
+        db.close(err => {
+            if (err) {
+                console.error(err);
+            }
+        });
+    }
     process.exit();
 }
 

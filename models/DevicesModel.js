@@ -44,6 +44,8 @@ const updateTimestampIpDevice = (device) => {
 }
 
 exports.mergeDevices = async (scanedDevices) => {
+    console.log({scanedDevices});
+
     let dbDevices = await getDevicesFromDB();
 
     // 1. update timestamps of dbDevices that are connected
