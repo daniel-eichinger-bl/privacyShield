@@ -1,4 +1,4 @@
-/* simple http parser, that extracts the HOST from a http payload*/
+/* simple http parser, that extracts the HOST from a http payload */
 exports.parseHTTPPayload = (payload) => {
     const splitted = payload.split("\n");
 

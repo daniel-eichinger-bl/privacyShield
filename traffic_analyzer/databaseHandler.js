@@ -9,8 +9,8 @@ const db = new sqlite3.cached.Database('../data/database', err => {
     }
 });
 
-exports.setupDatabse = () => {
-    /* Check if database table exits and creates it */
+/* Check if database table exits and creates it */
+exports.setupDatabase = () => {
     db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='privacy_traffic'", (err, row) => {
         if (!row) {
             console.log("--> PrivacyTraffic Database created!")

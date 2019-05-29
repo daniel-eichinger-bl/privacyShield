@@ -14,14 +14,13 @@ const BarChart = (props) => {
         return stats;
     }
 
-
+    // UnixTimestamp in Db, thats why *1000
     useEffect(() => {
         let stats = getEmptyStatObject();
         for (const d of trafficData) {
-            const hour = new Date(d.timestamp).getHours();
+            const hour = new Date(d.timestamp*1000).getHours();
             stats[hour].y = stats[hour].y + 1;
         }
-
         setHourStats(stats);
     }, [trafficData])
 

@@ -5,8 +5,7 @@ const parser = require('./httpPayloadParser');
 const databaseHandler = require('./databaseHandler');
 
 
-
-databaseHandler.setupDatabse();
+databaseHandler.setupDatabase();
 setTimeout(main, 3000);
 
 function main() {
@@ -38,9 +37,6 @@ function main() {
             const macSrc = eth.shost.addr.map(parseMac).join(':').toUpperCase();
             const macDest = eth.dhost.addr.map(parseMac).join(':').toUpperCase();
 
-            const src = ip.saddr.addr.join('.')
-            const dst = ip.daddr.addr.join('.')
-
             if (!tcp.data) {
                 return;
             }
@@ -49,10 +45,8 @@ function main() {
             if (tcp.sport === 8443 || tcp.sport === 443 || tcp.dport === 443 || tcp.dport === 8443) {
                 if (tlsClientHello(tcp.data)) {
                     const url = sni(tcp.data);
-                    //const obj = { ts: timestamp, shost: macSrc, dhost: macDest, saddr: src, daddr: dst, sport: tcp.sport, dport: tcp.dport, type: 'https', host: url }
-                    //console.log({ obj });
-
                     const data = { macSrc, macDest, timestamp, type: "https", host: url }
+
                     console.log(data);
                     databaseHandler.addToDb(data);
                     return;
@@ -72,9 +66,6 @@ function main() {
                 return;
             }
 
-            //const obj = { ts: timestamp, shost: macSrc, dhost: macDest, saddr: src, daddr: dst, sport: tcp.sport, dport: tcp.dport, type: 'http', host };
-            //console.log({ obj });
-
             const data = { macSrc, macDest, timestamp, type: "http", host }
             console.log(data);
             databaseHandler.addToDb(data);
@@ -83,7 +74,3 @@ function main() {
         }
     });
 }
-
-/*
-Possible to use TCP tracker and then see whats requested in a session
-*/

@@ -4,14 +4,11 @@ const arpscan = require('arpscan/promise');
 const DevicesModel = require('../models/DevicesModel');
 const TrafficModel = require('../models/TrafficModel');
 
-
 exports.getDeviceDetails = async (req, res) => {
     const mac = req.query.mac;
     const traffic = await TrafficModel.getTrafficByMac(mac.toUpperCase());
     res.status(200).json(traffic);
 }
-
-
 
 /*
     Toogles Blocking by MAC-Adress using iptables
@@ -32,12 +29,10 @@ exports.toggleBlock = async (req, res) => {
     }
 }
 
-
 exports.updateName = (req, res) => {
     const {mac, name} = req.body;
     DevicesModel.updateName(mac, name);
 }
-
 
 /* 
  returns { "devices": [ { "ip": "10.70.107.38", "mac": "6C:40:08:9E:EB:8E", "vendor": "(Unknown)", "timestamp": 1557812866910 }, { "ip": "10.70.107.234", "mac": "04:D6:AA:C2:4B:FF", "vendor": "(Unknown)", "timestamp": 1557812866910 } ] }
@@ -67,7 +62,6 @@ exports.getDevices = async (req, res) => {
     }
 }
 
-
 function findIpForMacs(macs, ipsMacsMappings) {
     let connectedDevices = [];
     for(const ipMacMapping of ipsMacsMappings) {
@@ -93,7 +87,6 @@ function parseStationOutput(output) {
     }
     return macs;
 }
-
 
 /* 
     returns {"ip": "10.70.107.20","mac": "74:E6:E2:DE:15:73","vendor": "(Unknown)","timestamp": 1557810541224}
