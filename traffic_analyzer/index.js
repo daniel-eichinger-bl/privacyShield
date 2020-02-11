@@ -9,7 +9,13 @@ databaseHandler.setupDatabase();
 setTimeout(main, 3000);
 
 function main() {
-    const pcap_session = pcap.createSession('br0', "ip proto \\tcp");
+    try {
+        const pcap_session = pcap.createSession('br0', "ip proto \\tcp");
+    } catch (error) {
+        console.error(error);
+        console.log("[-] Bridge b0 interface is not available");
+        return;
+    }
 
     const parseMac = (e) => {
         const byte = e.toString(16);
