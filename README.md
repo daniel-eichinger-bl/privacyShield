@@ -10,6 +10,13 @@ The prototypes features include traffic analyzation and device blocking.
 ## Architecture
 ![Architecture Image Node, React, Python, Sqlite](images/architecture.jpeg?raw=true "Title")
 
+
+## Screenshots
+<img src="images/screenshot_1.png" alt="screenshot1" width="500"/>
+<img src="images/screenshot_2.png" alt="screenshot2" width="400"/>
+
+
+
 ## Quickstart
 - modify Proxy: client/package.json to your IP-address
 - Running Node-Server and React Frontend: `npm run dev`
